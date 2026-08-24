@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✨ 个人简历 | 郭悦仪</title>
+<style>
+/* ===== 基础与变量 ===== */
+:root {
+  --bg: #050506;          /* 近黑非纯黑 */
+  --bg-soft: #0b0c10;
+  --card: #0d0e14;
+  --card-2: #12131a;
+  --ink: #f4f5f7;
+  --muted: #9aa0ae;
+  --brand: #5E6AD2;       /* indigo 主强调 */
+  --brand-2: #3b82f6;
+  --brand-glow: rgba(94,106,210,.55);
+  --radius: 16px;
+  --shadow: 0 12px 40px rgba(0,0,0,.5);
+  --glow: 0 0 40px var(--brand-glow);
+  --ease: cubic-bezier(.16, 1, .3, 1);  /* expo-out 缓动 */
+
+  /* ===== 边距控制变量（面板可实时调节） ===== */
+  --sp-section-v: 88px;
+  --sp-container-h: 24px;
+  --sp-card-v: 26px;
+  --sp-card-gap: 24px;
+  --sp-timeline-mb: 40px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+.container { max-width: 1000px; margin: 0 auto; padding: 0 var(--sp-container-h); }
+section { padding: var(--sp-section-v) 0; position: relative; }
+
+/* ===== 背景：动画渐变光斑 + 网格 ===== */
+.aurora { position: fixed; inset: 0; z-index: -2; overflow: hidden; background: var(--bg); }
+.aurora .blob {
+  position: absolute; border-radius: 50%; filter: blur(70px); opacity: .4;
+  mix-blend-mode: screen; will-change: transform;
+}
+.blob-1 { width: 480px; height: 480px; background: #5E6AD2; top: -120px; left: -80px; animation: drift1 22s var(--ease) infinite alternate; }
+.blob-2 { width: 420px; height: 420px; background: #3b82f6; top: 30%; right: -120px; animation: drift2 26s var(--ease) infinite alternate; }
+.blob-3 { width: 380px; height: 380px; background: #7c3aed; bottom: -100px; left: 40%; animation: drift3 30s var(--ease) infinite alternate; }
+@keyframes drift1 { from { transform: translate(0,0) scale(1); } to { transform: translate(120px,80px) scale(1.25); } }
+@keyframes drift2 { from { transform: translate(0,0) scale(1.1); } to { transform: translate(-100px,-60px) scale(.9); } }
+@keyframes drift3 { from { transform: translate(0,0) scale(1); } to { transform: translate(60px,-100px) scale(1.3); } }
+.grid-overlay {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+}
+
+/* ===== 顶部导航 ===== */
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(5,5,6,.7); backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.nav .container { display: flex; align-items: center; justify-content: space-between; padding-top: 16px; padding-bottom: 16px; }
+.nav .logo { font-weight: 700; font-size: 18px; letter-spacing: .5px; }
+.nav .logo span {
+  background: linear-gradient(90deg, var(--brand), var(--brand-2));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.nav .links { display: flex; gap: 28px; font-size: 14px; color: var(--muted); }
+.nav .links a { position: relative; transition: color .25s var(--ease); }
+.nav .links a::after {
+  content: ""; position: absolute; left: 0; bottom: -5px; height: 2px; width: 0;
+  background: linear-gradient(90deg, var(--brand), var(--brand-2));
+  transition: width .3s var(--ease);
+}
+.nav .links a:hover { color: var(--ink); }
+.nav .links a:hover::after { width: 100%; }
+
+/* ===== Hero ===== */
+.hero { min-height: calc(100vh - 64px); display: flex; align-items: center; padding-top: 40px; padding-bottom: 60px; }
+.hero .container { text-align: center; }
+.badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(94,106,210,.12); border: 1px solid rgba(94,106,210,.3);
+  color: #b9c0ff; padding: 7px 16px; border-radius: 999px; font-size: 13px;
+  margin-bottom: 28px; position: relative;
+}
+.badge .ping {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--brand);
+  box-shadow: 0 0 0 0 var(--brand-glow); animation: ping 2s var(--ease) infinite;
+}
+@keyframes ping { 0% { box-shadow: 0 0 0 0 var(--brand-glow); } 70% { box-shadow: 0 0 0 12px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+.hero .avatar {
+  width: 116px; height: 116px; border-radius: 50%; margin: 0 auto 26px;
+  background: conic-gradient(from 180deg, #5E6AD2, #3b82f6, #7c3aed, #5E6AD2);
+  padding: 4px; box-shadow: var(--glow); animation: hue-rotate 10s linear infinite;
+}
+.hero .avatar .inner {
+  width: 108px; height: 108px; border-radius: 50%;
+  background: var(--bg-soft); display: flex; align-items: center; justify-content: center;
+  font-size: 42px; font-weight: 800; color: var(--ink);
+}
+@keyframes hue-rotate { to { filter: hue-rotate(360deg); } }
+.hero h1 {
+  font-size: clamp(40px, 7vw, 72px); font-weight: 800; line-height: 1.1; letter-spacing: -.5px;
+  background: linear-gradient(90deg, #fff 0%, var(--brand) 60%, var(--brand-2) 100%);
+  background-size: 200% auto; -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; animation: shine 6s linear infinite;
+}
+@keyframes shine { to { background-position: 200% center; } }
+.hero .title { margin-top: 16px; color: var(--brand); font-size: 20px; font-weight: 600; letter-spacing: .5px; }
+.hero .intro { max-width: 620px; margin: 20px auto 0; color: var(--muted); font-size: 16px; }
+.hero .actions { margin-top: 36px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-block; padding: 13px 30px; border-radius: 999px; font-size: 14px; font-weight: 600;
+  transition: all .3s var(--ease); border: 1px solid transparent;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: #fff;
+  box-shadow: 0 8px 30px var(--brand-glow);
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 40px var(--brand-glow); }
+.btn-ghost { background: rgba(255,255,255,.04); color: var(--ink); border-color: rgba(255,255,255,.12); }
+.btn-ghost:hover { border-color: var(--brand); color: #fff; transform: translateY(-3px); }
+
+/* ===== 通用区块 ===== */
+.section-head { text-align: center; margin-bottom: 52px; }
+.section-head .tag {
+  display: inline-block; border: 1px solid rgba(94,106,210,.4); color: #b9c0ff;
+  font-size: 12px; font-weight: 700; padding: 5px 16px; border-radius: 999px;
+  letter-spacing: 2px; margin-bottom: 16px; background: rgba(94,106,210,.08);
+}
+.section-head h2 {
+  font-size: clamp(28px, 5vw, 40px); font-weight:800; letter-spacing: -.3px;
+  background: linear-gradient(90deg, #fff, #b9c0ff);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.section-head p { color: var(--muted); margin-top: 12px; font-size: 14px; }
+
+/* 滚动渐现 */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+.reveal.in { opacity: 1; transform: none; }
+.reveal-d1 { transition-delay: .1s; } .reveal-d2 { transition-delay: .2s; } .reveal-d3 { transition-delay: .3s; }
+
+/* ===== 技能组（鼠标聚光卡片） ===== */
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: var(--sp-card-gap); }
+.skill-card {
+  position: relative; overflow: hidden; background: var(--card);
+  border: 1px solid rgba(255,255,255,.07); border-radius: var(--radius); padding: var(--sp-card-v);
+  transition: border-color .3s var(--ease), transform .3s var(--ease);
+}
+.skill-card:hover { border-color: rgba(94,106,210,.5); transform: translateY(-4px); }
+.skill-card .spotlight {
+  position: absolute; inset: 0; opacity: 0; transition: opacity .4s var(--ease); pointer-events: none;
+  background: radial-gradient(300px circle at var(--mx,50%) var(--my,50%), rgba(94,106,210,.15), transparent 40%);
+}
+.skill-card:hover .spotlight { opacity: 1; }
+.skill-card h3 { font-size: 15px; margin-bottom: 14px; color: #fff; }
+.chip {
+  display: inline-block; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+  color: var(--muted); padding: 6px 13px; border-radius: 8px; font-size: 13px; margin: 0 6px 8px 0;
+  transition: all .2s var(--ease); cursor: default;
+}
+.chip:hover { color: #fff; border-color: var(--brand); }
+
+/* ===== 时间线 ===== */
+.timeline { position: relative; padding-left: 30px; }
+.timeline::before { content: ""; position: absolute; left: 10px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(180deg, var(--brand), transparent); }
+.timeline-item { position: relative; margin-bottom: var(--sp-timeline-mb); }
+.timeline-item::before {
+  content: ""; position: absolute; left: -27px; top: 8px; width: 13px; height: 13px; border-radius: 50%;
+  background: var(--bg); border: 2px solid var(--brand); box-shadow: 0 0 12px var(--brand-glow);
+}
+.timeline-item .head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; }
+.timeline-item .head .role { font-size: 17px; font-weight: 700; color: #fff; }
+.timeline-item .head .org { color: var(--brand); font-weight: 600; }
+.timeline-item .head .date { margin-left: auto; font-size: 12px; color: var(--muted); background: rgba(255,255,255,.05); padding: 3px 11px; border-radius: 999px; border: 1px solid rgba(255,255,255,.07); }
+.timeline-item .desc { margin-top: 10px; color: var(--muted); font-size: 14px; }
+.timeline-item ul { margin: 12px 0 0 18px; color: color-mix(in srgb, var(--ink) 85%, transparent); font-size: 14px; }
+.timeline-item li { margin-bottom: 6px; }
+.timeline-item li::marker { color: var(--brand); }
+.timeline-item li strong { color: #fff; font-weight: 700; }
+.timeline-item li .hl { color: var(--brand); font-weight: 700; }
+
+/* ===== 项目卡片 ===== */
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--sp-card-gap); }
+.project-card {
+  position: relative; overflow: hidden; background: var(--card);
+  border: 1px solid rgba(255,255,255,.07); border-radius: var(--radius); padding: var(--sp-card-v);
+  transition: border-color .3s var(--ease), transform .3s var(--ease), box-shadow .3s var(--ease);
+}
+.project-card:hover { transform: translateY(-5px); border-color: rgba(94,106,210,.5); box-shadow: var(--glow); }
+.project-card .spotlight { position: absolute; inset: 0; opacity: 0; transition: opacity .4s var(--ease); pointer-events: none; background: radial-gradient(300px circle at var(--mx,50%) var(--my,50%), rgba(94,106,210,.16), transparent 40%); }
+.project-card:hover .spotlight { opacity: 1; }
+.project-card .name { font-size: 16px; font-weight: 700; color: #fff; }
+.project-card .stack { margin: 10px 0 12px; }
+.project-card .stack .chip { margin-bottom: 4px; }
+.project-card .desc { color: var(--muted); font-size: 14px; }
+
+/* ===== 关于 ===== */
+.about-text { max-width: 720px; margin: 0 auto; color: var(--muted); font-size: 15px; text-align: center; }
+
+/* ===== 联系 ===== */
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 36px; }
+.contact-item {
+  background: var(--card); border: 1px solid rgba(255,255,255,.07); border-radius: var(--radius);
+  padding: 22px; text-align: center; transition: all .3s var(--ease);
+}
+.contact-item:hover { border-color: var(--brand); transform: translateY(-3px); box-shadow: var(--glow); }
+.contact-item .k { font-size: 13px; color: var(--muted); }
+.contact-item .v { font-size: 16px; font-weight: 700; margin-top: 6px; color: #fff; }
+
+/* ===== 页脚 ===== */
+footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13px; border-top: 1px solid rgba(255,255,255,.05); }
+
+@media (max-width: 640px) {
+  .nav .links { display: none; }
+  .hero { min-height: auto; padding-top: 60px; }
+  section { padding: 52px 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- 背景光斑 -->
+<div class="aurora">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+<div class="grid-overlay"></div>
+
+<!-- 顶部导航 -->
+<header class="nav">
+  <div class="container">
+    <div class="logo"><span>✦</span> 郭悦仪</div>
+    <nav class="links">
+      <a href="#about">关于</a>
+      <a href="#education">教育</a>
+      <a href="#skills">技能</a>
+      <a href="#experience">经历</a>
+      <a href="#achievements">成果</a>
+      <a href="#contact">联系</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="badge reveal"><span class="ping"></span> 在线 · 开放合作机会</div>
+    <div class="avatar reveal reveal-d1"><div class="inner">郭</div></div>
+    <h1 class="reveal reveal-d1">郭悦仪</h1>
+    <div class="title reveal reveal-d2">运营 · 6 年经验</div>
+    <p class="intro reveal reveal-d2">
+      6 年 O2O 与电商运营经验，深耕银发经济与即时零售赛道，主导适老化商城从 0 到 1 上线
+      并累计达成 GMV 1.2 亿元，擅长全链路运营与数据驱动增长。
+    </p>
+    <div class="actions reveal reveal-d3">
+      <a class="btn btn-primary" href="#contact">联系我</a>
+      <a class="btn btn-ghost" href="#experience">查看经历</a>
+    </div>
+  </div>
+</section>
+
+<!-- 关于 -->
+<section id="about">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="tag">ABOUT</div>
+      <h2>关于我</h2>
+    </div>
+    <p class="about-text reveal reveal-d1">
+      你好，我是郭悦仪，一名拥有 6 年经验的 O2O 与电商运营人。先后服务百货、电商、即时零售与银发经济赛道，
+      主导过商城从后台开发到正式上线的全周期，深度参与适老化项目并推动累计 GMV 突破 1.2 亿元。
+      擅长全链路运营体系搭建、跨部门协同与数据化运营，相信好的运营既懂业务，也懂数据与用户。这里是我的一些经历与成果，欢迎交流。
+    </p>
+  </div>
+</section>
+
+<!-- 教育经历 -->
+<section id="education">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="tag">EDUCATION</div>
+      <h2>教育经历</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="head">
+          <span class="role">商务英语</span>
+          <span class="org">@ 广东华商学院</span>
+          <span class="date">2017.09 — 2020.06</span>
+        </div>
+        <p class="desc">大专 · 商务英语专业</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 技能 -->
+<section id="skills">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="tag">SKILLS</div>
+      <h2>核心能力</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card reveal reveal-d1"><div class="spotlight"></div><h3>📊 数据运营</h3><span class="chip">Excel 数据处理</span><span class="chip">可视化分析</span><span class="chip">用户行为分析</span><span class="chip">交易转化复盘</span><span class="chip">PPT 分析报告</span></div>
+      <div class="skill-card reveal reveal-d2"><div class="spotlight"></div><h3>🎯 活动运营</h3><span class="chip">市场调研</span><span class="chip">活动策划</span><span class="chip">方案落地</span><span class="chip">效果追踪</span><span class="chip">文案撰写</span><span class="chip">H5 页面搭建</span></div>
+      <div class="skill-card reveal reveal-d3"><div class="spotlight"></div><h3>🤝 业务支撑</h3><span class="chip">产品功能测试</span><span class="chip">日常运维</span><span class="chip">财务对账</span><span class="chip">BD 商务谈判</span><span class="chip">PS / SD / Figma / 墨刀</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 经历 -->
+<section id="experience">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="tag">EXPERIENCE</div>
+      <h2>工作经历</h2>
+    </div>
+    <div class="timeline">
+
+      <div class="timeline-item reveal">
+        <div class="head">
+          <span class="role">商城运营</span>
+          <span class="org">@ 深圳市福瑞信息技术有限公司</span>
+          <span class="date">2024.12 — 至今</span>
+        </div>
+        <ul>
+          <li><strong>O2O 平台全链路运营：</strong>统筹集团适老化类 O2O 小程序日常运营，负责商品上架、页面体验优化、库存动态监控全环节；优化「线上购买 + 居家上门」服务链路，提升用户体验与转化效率。</li>
+          <li><strong>跨部门协同机制搭建：</strong>拉通采购、财务、技术开发等多部门资源，搭建跨部门业务快速响应机制，支撑线上线下联动营销活动落地。</li>
+          <li><strong>全渠道活动执行运营：</strong>主导线上线下联动营销活动全流程，负责活动规则配置、专题页搭建与上线校验，联动站点、设计团队完成宣发与物料，保障活动零差错高效落地。</li>
+          <li><strong>商品定价与供应链提效：</strong>通过市场调研与竞品分析制定动态定价策略，搭建运营-采购协同标准化流程工具，提升采购协同效率。</li>
+          <li><strong>订单履约与业财闭环：</strong>跟进商城订单全链路，保障订单 100% 履约闭环；月度运营费用报表，跟进供应商发票与付款全流程。</li>
+          <li><span class="hl">业绩成果：</span>深度参与适老化项目从后台开发到商城正式上线全周期，推动项目累计达成 <strong>GMV 1.2 亿元</strong>，支撑集团银发经济赛道业务扩张。</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item reveal reveal-d1">
+        <div class="head">
+          <span class="role">O2O 运营主管</span>
+          <span class="org">@ 朴诚乳业(集团)有限公司</span>
+          <span class="date">2024.06 — 2024.09</span>
+        </div>
+        <ul>
+          <li><strong>平台运营体系搭建：</strong>独立对接饿了么、美团、京东到家等即时零售平台，搭建活动标准化提报流程与后台运营 SOP 体系，结合区域消费特性制定差异化促销策略。</li>
+          <li><strong>销售全周期数据化运营：</strong>围绕月度销售目标拆解全国区域指标，追踪销售进度，监控活动上线状态、销售数据及优惠券核销率等核心指标，输出销售分析报告支撑决策。</li>
+          <li><strong>跨部门协同机制打通：</strong>联动线下门店、商品、公关、客服等部门，建立活动前需求同步、活动中问题快速响应机制，保障物料铺设与费用核销。</li>
+          <li><span class="hl">业绩成果：</span>任职期间负责的平台大盘份额占比达 <strong>6%</strong>，大盘整体增速 <strong>27%</strong>，美团渠道乳品类目市占排名跻身 <strong>全国第 8 位</strong>。</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item reveal reveal-d1">
+        <div class="head">
+          <span class="role">O2O 运营专员</span>
+          <span class="org">@ 全棉时代科技有限公司</span>
+          <span class="date">2023.05 — 2024.06</span>
+        </div>
+        <ul>
+          <li><strong>O2O 平台运营协同：</strong>对接饿了么、淘鲜达等本地生活平台，协同 BD 团队制定促销方案；参与资源谈判，获取开机屏、首页 Banner、推送短信等核心广告位，最大化品牌曝光。</li>
+          <li><strong>营销费用管控优化：</strong>承担平台/KA 渠道销售费用统计、分析与管控，结合费比要求调整投放策略，推动营销费比同比下降 <strong>6%</strong>，精准核算单产品利润。</li>
+          <li><strong>活动落地执行保障：</strong>统筹线上线下活动物料设计，跟进优惠券配置上线、核销率等过程指标，保障活动高效推进。</li>
+          <li><span class="hl">业绩成果：</span>所负责的饿了么渠道，2023 年销售额同比增长 <strong>96%</strong>，2024 年 1-6 月同比增长 <strong>202%</strong>。</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item reveal reveal-d1">
+        <div class="head">
+          <span class="role">电商助理</span>
+          <span class="org">@ 深圳市少女派科技有限公司</span>
+          <span class="date">2022.04 — 2023.05</span>
+        </div>
+        <ul>
+          <li><strong>社群分销运营执行：</strong>协助开展快团团、有赞小程序日常运维，执行商品上下架、标题关键词优化、库存动态核对，配合团长、分销商资源拓展。</li>
+          <li><strong>选品与内容落地支持：</strong>基于历史销售数据筛选匹配用户调性的商品，协助供应商谈判议价，核对价格、资质、授权链路，为 20 个矩阵账号输出卖点文案与详情页内容。</li>
+          <li><span class="hl">业绩成果：</span>2023 年 3-6 月发布内容 76 篇，带动月均 GMV 超 <strong>40 万</strong>，单篇最高阅读量 <strong>10w+</strong>，团文转化率 <strong>4.5%</strong>；2022 年输出有赞推文 747 篇，助力矩阵佣金收益突破 <strong>400 万</strong>。</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item reveal reveal-d1">
+        <div class="head">
+          <span class="role">电商助理</span>
+          <span class="org">@ 深圳市茂业百货有限公司</span>
+          <span class="date">2020.03 — 2022.04</span>
+        </div>
+        <ul>
+          <li><strong>小程序及平台运营执行：</strong>协同开展茂乐惠小程序、抖音账号全链路运营，执行产品上架规划、页面动线优化、库存盘点、促销规则配置，配合活动海报与 H5 落地页策划。</li>
+          <li><strong>售后与数据运营支持：</strong>承接小程序端售后对接与客诉处理，定期完成平台流量、销售、用户行为等多维度数据采集。</li>
+          <li><span class="hl">业绩成果：</span>所支持的茂乐惠小程序日均销售额突破 <strong>20 万元</strong>；2021 年 Q2 小程序 GMV 占比环比 Q1 提升 <strong>6.42%</strong>，Q3 再提升 <strong>4.8%</strong>，助力业务稳定增长。</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 成果 -->
+<section id="achievements">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="tag">ACHIEVEMENTS</div>
+      <h2>核心成果</h2>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card reveal reveal-d1"><div class="spotlight"></div>
+        <div class="name">银发经济适老化商城</div>
+        <div class="stack"><span class="chip">小程序运营</span><span class="chip">居家上门</span><span class="chip">全链路</span></div>
+        <p class="desc">从后台开发到商城上线全周期，精准选品与定制化营销，累计达成 GMV 1.2 亿元，支撑集团银发经济赛道扩张。</p>
+      </div>
+      <div class="project-card reveal reveal-d2"><div class="spotlight"></div>
+        <div class="name">即时零售渠道增长</div>
+        <div class="stack"><span class="chip">饿了么</span><span class="chip">美团</span><span class="chip">京东到家</span></div>
+        <p class="desc">平台大盘份额 6%、整体增速 27%，美团渠道乳品类目市占排名跻身全国第 8 位。</p>
+      </div>
+      <div class="project-card reveal reveal-d3"><div class="spotlight"></div>
+        <div class="name">渠道销售倍增</div>
+        <div class="stack"><span class="chip">营销费比管控</span><span class="chip">内容矩阵</span><span class="chip">分销运营</span></div>
+        <p class="desc">饿了么渠道销售额同比增长 96%→202%，营销费比下降 6%，内容矩阵月均 GMV 超 40 万。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 联系 -->
+<section id="contact">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="tag">CONTACT</div>
+      <h2>联系我</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-item reveal reveal-d1"><div class="k">电话</div><div class="v">17881840930</div></div>
+      <div class="contact-item reveal reveal-d2"><div class="k">邮箱</div><div class="v">1439643417@qq.com</div></div>
+      <div class="contact-item reveal reveal-d3"><div class="k">工作年限</div><div class="v">6 年</div></div>
+      <div class="contact-item reveal reveal-d1"><div class="k">学历</div><div class="v">大专 · 商务英语</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer>
+  <div class="container">© 2026 郭悦仪 · 用心打磨的每一个细节</div>
+</footer>
+
+<!-- ===== 边距调试面板 ===== -->
+<div id="sp-toggle" title="边距调试">⬌ 边距</div>
+<div id="sp-panel">
+  <div class="sp-head">
+    <strong>边距调试</strong>
+    <button id="sp-close" title="收起">—</button>
+  </div>
+  <div class="sp-sub">实时拖动，自动保存</div>
+  <div class="sp-row" data-k="--sp-section-v"><label>区块垂直间距</label><input type="range" min="0" max="200" step="4"><span></span></div>
+  <div class="sp-row" data-k="--sp-container-h"><label>容器水平内边距</label><input type="range" min="0" max="80" step="2"><span></span></div>
+  <div class="sp-row" data-k="--sp-card-v"><label>卡片垂直内边距</label><input type="range" min="0" max="80" step="2"><span></span></div>
+  <div class="sp-row" data-k="--sp-card-gap"><label>卡片间距</label><input type="range" min="0" max="80" step="2"><span></span></div>
+  <div class="sp-row" data-k="--sp-timeline-mb"><label>时间线条目间距</label><input type="range" min="0" max="140" step="4"><span></span></div>
+  <button id="sp-reset">重置默认</button>
+</div>
+
+<style>
+#sp-toggle {
+  position: fixed; right: 0; top: 50%; transform: translateY(-50%);
+  background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: #fff;
+  font-size: 13px; font-weight: 700; padding: 12px 10px; border-radius: 12px 0 0 12px;
+  cursor: pointer; z-index: 98; box-shadow: 0 6px 24px rgba(94,106,210,.4);
+  writing-mode: vertical-rl; letter-spacing: 2px;
+}
+#sp-panel {
+  position: fixed; right: 0; top: 50%; transform: translateY(-50%);
+  width: 262px; background: var(--card); border-radius: 14px 0 0 14px;
+  box-shadow: 0 14px 44px rgba(0,0,0,.6); z-index: 99; padding: 18px;
+  border: 1px solid rgba(94,106,210,.3); border-right: none; transition: transform .25s var(--ease);
+}
+#sp-panel.hidden { transform: translateY(-50%) translateX(100%); }
+#sp-toggle.on { display: none; }
+.sp-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.sp-head strong { font-size: 14px; color: #fff; }
+.sp-head button { background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; line-height: 1; }
+.sp-sub { font-size: 11px; color: var(--muted); margin-bottom: 14px; }
+.sp-row { margin-bottom: 14px; }
+.sp-row label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 5px; }
+.sp-row input[type=range] { width: 100%; cursor: pointer; accent-color: var(--brand); }
+.sp-row span { float: right; font-size: 11px; color: var(--brand); font-weight: 700; margin-top: 3px; }
+#sp-reset { width: 100%; margin-top: 6px; padding: 9px 0; border: none; border-radius: 9px; background: rgba(94,106,210,.15); color: #b9c0ff; font-size: 13px; font-weight: 600; cursor: pointer; transition: background .2s; }
+#sp-reset:hover { background: rgba(94,106,210,.3); }
+</style>
+
+<script>
+(function () {
+  // ===== 边距面板相关变量 =====
+  var KEYS = { "--sp-section-v": 88, "--sp-container-h": 24, "--sp-card-v": 26, "--sp-card-gap": 24, "--sp-timeline-mb": 40 };
+  var root = document.documentElement;
+  var STORE = "resume-spacing";
+  try {
+    var saved = JSON.parse(localStorage.getItem(STORE) || "{}");
+    for (var k in KEYS) { if (typeof saved[k] === "number") root.style.setProperty(k, saved[k] + "px"); }
+  } catch (e) {}
+
+  function syncSliders() {
+    document.querySelectorAll(".sp-row").forEach(function (row) {
+      var k = row.dataset.k;
+      var v = parseInt(root.style.getPropertyValue(k)) || KEYS[k];
+      row.querySelector("input").value = v;
+      row.querySelector("span").textContent = v + "px";
+    });
+  }
+  syncSliders();
+  document.querySelectorAll(".sp-row input").forEach(function (input) {
+    input.addEventListener("input", function () {
+      var k = input.closest(".sp-row").dataset.k;
+      var v = parseInt(input.value);
+      root.style.setProperty(k, v + "px");
+      input.closest(".sp-row").querySelector("span").textContent = v + "px";
+      var store = {};
+      for (var key in KEYS) store[key] = parseInt(root.style.getPropertyValue(key)) || KEYS[key];
+      try { localStorage.setItem(STORE, JSON.stringify(store)); } catch (e) {}
+    });
+  });
+  var panel = document.getElementById("sp-panel");
+  var toggle = document.getElementById("sp-toggle");
+  document.getElementById("sp-close").addEventListener("click", function () { panel.classList.add("hidden"); toggle.classList.add("on"); });
+  toggle.addEventListener("click", function () { panel.classList.remove("hidden"); toggle.classList.remove("on"); });
+  document.getElementById("sp-reset").addEventListener("click", function () {
+    for (var k in KEYS) root.style.setProperty(k, KEYS[k] + "px");
+    try { localStorage.removeItem(STORE); } catch (e) {}
+    syncSliders();
+  });
+
+  // ===== 滚动渐现 =====
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
+
+  // ===== 卡片鼠标聚光灯效果 =====
+  document.querySelectorAll(".skill-card, .project-card").forEach(function (card) {
+    card.addEventListener("mousemove", function (e) {
+      var r = card.getBoundingClientRect();
+      card.style.setProperty("--mx", ((e.clientX - r.left) / r.width * 100) + "%");
+      card.style.setProperty("--my", ((e.clientY - r.top) / r.height * 100) + "%");
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
