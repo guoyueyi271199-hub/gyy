@@ -250,7 +250,13 @@ section { padding: var(--sp-section-v) 0; position: relative; }
 footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13px; border-top: 1px solid rgba(255,255,255,.05); }
 
 @media (max-width: 640px) {
-  .nav .links { display: none; }
+  .nav .container { flex-wrap: wrap; }
+  .nav .links {
+    display: flex; gap: 16px; width: 100%; margin-top: 8px;
+    overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .nav .links::-webkit-scrollbar { display: none; }
+  .nav .links a { white-space: nowrap; flex-shrink: 0; }
   .hero { min-height: auto; padding-top: 60px; }
   section { padding: 52px 0; }
   .data-table thead { display: none; }
