@@ -75,7 +75,7 @@ section { padding: var(--sp-section-v) 0; position: relative; }
   background: linear-gradient(90deg, var(--brand), var(--brand-2));
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 }
-.nav .links { display: flex; gap: 28px; font-size: 14px; color: var(--muted); }
+.nav .links { display: flex; gap: 22px; font-size: 14px; color: var(--muted); }
 .nav .links a { position: relative; transition: color .25s var(--ease); }
 .nav .links a::after {
   content: ""; position: absolute; left: 0; bottom: -5px; height: 2px; width: 0;
@@ -118,7 +118,7 @@ section { padding: var(--sp-section-v) 0; position: relative; }
 }
 @keyframes shine { to { background-position: 200% center; } }
 .hero .title { margin-top: 16px; color: var(--brand); font-size: 20px; font-weight: 600; letter-spacing: .5px; }
-.hero .intro { max-width: 620px; margin: 20px auto 0; color: var(--muted); font-size: 16px; }
+.hero .intro { max-width: 640px; margin: 20px auto 0; color: var(--muted); font-size: 16px; }
 .hero .actions { margin-top: 36px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 .btn {
   display: inline-block; padding: 13px 30px; border-radius: 999px; font-size: 14px; font-weight: 600;
@@ -140,7 +140,7 @@ section { padding: var(--sp-section-v) 0; position: relative; }
   letter-spacing: 2px; margin-bottom: 16px; background: rgba(94,106,210,.08);
 }
 .section-head h2 {
-  font-size: clamp(28px, 5vw, 40px); font-weight:800; letter-spacing: -.3px;
+  font-size: clamp(28px, 5vw, 40px); font-weight: 800; letter-spacing: -.3px;
   background: linear-gradient(90deg, #fff, #b9c0ff);
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 }
@@ -151,26 +151,34 @@ section { padding: var(--sp-section-v) 0; position: relative; }
 .reveal.in { opacity: 1; transform: none; }
 .reveal-d1 { transition-delay: .1s; } .reveal-d2 { transition-delay: .2s; } .reveal-d3 { transition-delay: .3s; }
 
-/* ===== 技能组（鼠标聚光卡片） ===== */
-.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: var(--sp-card-gap); }
-.skill-card {
+/* ===== 能力模块卡片 ===== */
+.cap-card {
   position: relative; overflow: hidden; background: var(--card);
-  border: 1px solid rgba(255,255,255,.07); border-radius: var(--radius); padding: var(--sp-card-v);
+  border: 1px solid rgba(255,255,255,.07); border-radius: var(--radius);
+  padding: 30px; margin-bottom: 22px;
   transition: border-color .3s var(--ease), transform .3s var(--ease);
 }
-.skill-card:hover { border-color: rgba(94,106,210,.5); transform: translateY(-4px); }
-.skill-card .spotlight {
+.cap-card:hover { border-color: rgba(94,106,210,.5); transform: translateY(-3px); }
+.cap-card .spotlight {
   position: absolute; inset: 0; opacity: 0; transition: opacity .4s var(--ease); pointer-events: none;
-  background: radial-gradient(300px circle at var(--mx,50%) var(--my,50%), rgba(94,106,210,.15), transparent 40%);
+  background: radial-gradient(500px circle at var(--mx,50%) var(--my,50%), rgba(94,106,210,.12), transparent 45%);
 }
-.skill-card:hover .spotlight { opacity: 1; }
-.skill-card h3 { font-size: 15px; margin-bottom: 14px; color: #fff; }
-.chip {
-  display: inline-block; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
-  color: var(--muted); padding: 6px 13px; border-radius: 8px; font-size: 13px; margin: 0 6px 8px 0;
-  transition: all .2s var(--ease); cursor: default;
+.cap-card:hover .spotlight { opacity: 1; }
+.cap-card .cap-title {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+  font-size: 18px; font-weight: 700; color: #fff;
 }
-.chip:hover { color: #fff; border-color: var(--brand); }
+.cap-card .cap-title .no {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 9px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  color: #fff; font-size: 14px; font-weight: 800;
+}
+.cap-card ul { margin-left: 18px; color: color-mix(in srgb, var(--ink) 85%, transparent); font-size: 14px; }
+.cap-card li { margin-bottom: 9px; }
+.cap-card li::marker { color: var(--brand); }
+.cap-card li strong { color: #fff; font-weight: 700; }
+.cap-card li .hl { color: var(--brand); font-weight: 700; }
 
 /* ===== 时间线 ===== */
 .timeline { position: relative; padding-left: 30px; }
@@ -191,20 +199,39 @@ section { padding: var(--sp-section-v) 0; position: relative; }
 .timeline-item li strong { color: #fff; font-weight: 700; }
 .timeline-item li .hl { color: var(--brand); font-weight: 700; }
 
-/* ===== 项目卡片 ===== */
-.projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--sp-card-gap); }
-.project-card {
+/* ===== 业绩数据表格 ===== */
+.data-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 8px; }
+.data-table th, .data-table td {
+  padding: 16px 20px; text-align: left; font-size: 14px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.data-table thead th {
+  color: #b9c0ff; font-size: 13px; font-weight: 700; letter-spacing: 1px;
+  background: rgba(94,106,210,.08);
+}
+.data-table thead th:first-child { border-radius: 12px 0 0 0; }
+.data-table thead th:last-child { border-radius: 0 12px 0 0; }
+.data-table tbody tr { transition: background .25s var(--ease); }
+.data-table tbody tr:hover { background: rgba(94,106,210,.06); }
+.data-table tbody td:first-child { color: #fff; font-weight: 700; white-space: nowrap; }
+.data-table tbody td:last-child { color: var(--muted); }
+.data-table tbody td .hl { color: var(--brand); font-weight: 700; }
+
+/* ===== 工具技能 chips ===== */
+.tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--sp-card-gap); }
+.tool-card {
   position: relative; overflow: hidden; background: var(--card);
   border: 1px solid rgba(255,255,255,.07); border-radius: var(--radius); padding: var(--sp-card-v);
-  transition: border-color .3s var(--ease), transform .3s var(--ease), box-shadow .3s var(--ease);
+  transition: border-color .3s var(--ease), transform .3s var(--ease);
 }
-.project-card:hover { transform: translateY(-5px); border-color: rgba(94,106,210,.5); box-shadow: var(--glow); }
-.project-card .spotlight { position: absolute; inset: 0; opacity: 0; transition: opacity .4s var(--ease); pointer-events: none; background: radial-gradient(300px circle at var(--mx,50%) var(--my,50%), rgba(94,106,210,.16), transparent 40%); }
-.project-card:hover .spotlight { opacity: 1; }
-.project-card .name { font-size: 16px; font-weight: 700; color: #fff; }
-.project-card .stack { margin: 10px 0 12px; }
-.project-card .stack .chip { margin-bottom: 4px; }
-.project-card .desc { color: var(--muted); font-size: 14px; }
+.tool-card:hover { border-color: rgba(94,106,210,.5); transform: translateY(-4px); }
+.tool-card h3 { font-size: 15px; margin-bottom: 14px; color: #fff; }
+.chip {
+  display: inline-block; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+  color: var(--muted); padding: 6px 13px; border-radius: 8px; font-size: 13px; margin: 0 6px 8px 0;
+  transition: all .2s var(--ease); cursor: default;
+}
+.chip:hover { color: #fff; border-color: var(--brand); }
 
 /* ===== 关于 ===== */
 .about-text { max-width: 720px; margin: 0 auto; color: var(--muted); font-size: 15px; text-align: center; }
@@ -226,6 +253,9 @@ footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13
   .nav .links { display: none; }
   .hero { min-height: auto; padding-top: 60px; }
   section { padding: 52px 0; }
+  .data-table thead { display: none; }
+  .data-table tbody td { display: block; padding: 10px 14px; }
+  .data-table tbody td:first-child { border-bottom: none; padding-bottom: 2px; }
 }
 </style>
 </head>
@@ -246,9 +276,10 @@ footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13
     <nav class="links">
       <a href="#about">关于</a>
       <a href="#education">教育</a>
-      <a href="#skills">技能</a>
-      <a href="#experience">经历</a>
+      <a href="#capabilities">能力</a>
       <a href="#achievements">成果</a>
+      <a href="#tools">工具</a>
+      <a href="#experience">经历</a>
       <a href="#contact">联系</a>
     </nav>
   </div>
@@ -262,12 +293,12 @@ footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13
     <h1 class="reveal reveal-d1">郭悦仪</h1>
     <div class="title reveal reveal-d2">运营 · 6 年经验</div>
     <p class="intro reveal reveal-d2">
-      6 年 O2O 与电商运营经验，深耕银发经济与即时零售赛道，主导适老化商城从 0 到 1 上线
-      并累计达成 GMV 1.2 亿元，擅长全链路运营与数据驱动增长。
+      6 年 O2O 与电商运营经验，独立运营养老科普公众号「福瑞颐养」，从 0 到 1 跑通内容生产全流程；
+      擅长内容策划、KOL 推广、活动全流程执行与数据复盘，深耕银发经济与即时零售赛道。
     </p>
     <div class="actions reveal reveal-d3">
       <a class="btn btn-primary" href="#contact">联系我</a>
-      <a class="btn btn-ghost" href="#experience">查看经历</a>
+      <a class="btn btn-ghost" href="#capabilities">查看能力</a>
     </div>
   </div>
 </section>
@@ -280,9 +311,9 @@ footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13
       <h2>关于我</h2>
     </div>
     <p class="about-text reveal reveal-d1">
-      你好，我是郭悦仪，一名拥有 6 年经验的 O2O 与电商运营人。先后服务百货、电商、即时零售与银发经济赛道，
-      主导过商城从后台开发到正式上线的全周期，深度参与适老化项目并推动累计 GMV 突破 1.2 亿元。
-      擅长全链路运营体系搭建、跨部门协同与数据化运营，相信好的运营既懂业务，也懂数据与用户。这里是我的一些经历与成果，欢迎交流。
+      你好，我是郭悦仪，一名拥有 6 年经验的运营人。先后服务百货、电商、即时零售与银发经济赛道，
+      现独立运营养老科普公众号「福瑞颐养」，从 0 到 1 跑通选题、撰写、排版、发布全流程。
+      擅长内容策划、达人推广、活动全流程执行与数据复盘，相信好的运营既懂内容，也懂数据与用户。这里是我的一些经历与成果，欢迎交流。
     </p>
   </div>
 </section>
@@ -307,17 +338,97 @@ footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13
   </div>
 </section>
 
-<!-- 技能 -->
-<section id="skills">
+<!-- 核心能力 -->
+<section id="capabilities">
   <div class="container">
     <div class="section-head reveal">
-      <div class="tag">SKILLS</div>
-      <h2>核心能力</h2>
+      <div class="tag">CAPABILITIES</div>
+      <h2>核心能力模块</h2>
     </div>
-    <div class="skills-grid">
-      <div class="skill-card reveal reveal-d1"><div class="spotlight"></div><h3>📊 数据运营</h3><span class="chip">Excel 数据处理</span><span class="chip">可视化分析</span><span class="chip">用户行为分析</span><span class="chip">交易转化复盘</span><span class="chip">PPT 分析报告</span></div>
-      <div class="skill-card reveal reveal-d2"><div class="spotlight"></div><h3>🎯 活动运营</h3><span class="chip">市场调研</span><span class="chip">活动策划</span><span class="chip">方案落地</span><span class="chip">效果追踪</span><span class="chip">文案撰写</span><span class="chip">H5 页面搭建</span></div>
-      <div class="skill-card reveal reveal-d3"><div class="spotlight"></div><h3>🤝 业务支撑</h3><span class="chip">产品功能测试</span><span class="chip">日常运维</span><span class="chip">财务对账</span><span class="chip">BD 商务谈判</span><span class="chip">PS / SD / Figma / 墨刀</span></div>
+
+    <div class="cap-card reveal">
+      <div class="spotlight"></div>
+      <div class="cap-title"><span class="no">1</span> 内容策划与文案输出</div>
+      <ul>
+        <li>独立负责「福瑞颐养」养老科普公众号从 0 到 1 整体运营，每周输出 <strong>5 篇原创推文</strong>，涵盖养老政策解读、健康科普、适老化产品推荐等内容，用直白语言降低阅读门槛。</li>
+        <li>每日跟踪行业动态与用户关注趋势，快速响应当周热点完成选题策划与发文；筛选养老书籍撰写读书笔记与荐书内容嵌入推文，丰富内容维度。</li>
+        <li>从 0 摸索账号定位与内容风格，建立<strong>选题库</strong>和<strong>内容素材库</strong>，形成稳定的排期与产出节奏。</li>
+        <li>曾参与运营矩阵团文，累计发布内容 <strong>76 篇</strong>，单篇最高阅读量 <strong>10w+</strong>，团文转化率 <strong>4.5%</strong>；参与输出有赞小程序推文 747 篇。</li>
+      </ul>
+    </div>
+
+    <div class="cap-card reveal reveal-d1">
+      <div class="spotlight"></div>
+      <div class="cap-title"><span class="no">2</span> KOL 资源与平台推广</div>
+      <ul>
+        <li>独立对接抖音、小红书等平台达人资源，参与商务谈判及资源置换，获取平台核心广告位及达人推荐位，提升品牌曝光量。</li>
+        <li>根据平台用户调性策划产品推广方案，结合不同渠道特性制定差异化内容策略。</li>
+        <li>所负责的达人合作渠道，2023 年销售额同比增长 <strong>96%</strong>，2024 上半年同比增长 <strong>202%</strong>；熟悉小红书、微博、抖音、公众号等平台的内容生态与推广方式。</li>
+      </ul>
+    </div>
+
+    <div class="cap-card reveal reveal-d1">
+      <div class="spotlight"></div>
+      <div class="cap-title"><span class="no">3</span> 活动策划与全流程执行</div>
+      <ul>
+        <li>每月配合营销节点独立输出活动方案，从需求提出到执行全程盯盘：技术侧拉会沟通工具开发需求，采购侧对接选品与成本测算，运营侧配置活动专题页。</li>
+        <li>在后台独立配置优惠券、满减、秒杀等促销规则；针对重复性配置任务，让 AI 生成标准化配置 Excel 表格后批量导入后台，或调用 API 自动完成配置。</li>
+        <li>使用平台自有小程序开发工具独立搭建活动专题页，完成页面布局、模块配置及上线前自测校验。</li>
+        <li>亲自到线下站点布展，协调展位摆放与场地动线，观察用户从进店到买单的完整行动路径，找出影响体验的堵点并现场给出调整方案。</li>
+        <li>以 7 月华大基因合作活动为例，单场活动 <span class="hl">GMV 达 20 万</span>；日常站点开业同步上线商城活动做流量承接。</li>
+      </ul>
+    </div>
+
+    <div class="cap-card reveal reveal-d1">
+      <div class="spotlight"></div>
+      <div class="cap-title"><span class="no">4</span> 数据复盘与流程提效</div>
+      <ul>
+        <li>用 Excel 拉透视表监控日销、核销率、转化率等核心指标；活动结束后完成数据复盘及财务对账，输出 PPT 分析报告，为下一轮策略调整提供依据。</li>
+        <li>通过后台数据监控发现异常立即排查，形成「发现问题 → 定位原因 → 技术修复 → 客服兜底」的快速响应闭环。</li>
+        <li>主动听到财务反馈采购流程混乱后，逐一访谈采购、财务、运营三方痛点，梳理从需求提报到报销的完整 SOP，用<strong>飞书多维表格</strong>搭建协同工具，减少来回沟通成本。</li>
+        <li>日常用 Codex、Claude、Pi 等 AI 工具处理重复性数据整理、竞品调研框架搭建等工作。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 业绩成果 -->
+<section id="achievements">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="tag">ACHIEVEMENTS</div>
+      <h2>业绩成果亮点</h2>
+    </div>
+    <div class="reveal">
+      <table class="data-table">
+        <thead>
+          <tr><th>项目</th><th>数据成果</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>适老化小程序商城</td><td>从 0 到 1 上线，累计 <span class="hl">GMV 1.2 亿元</span>，订单 100% 履约闭环</td></tr>
+          <tr><td>全棉时代达人合作</td><td>2023 年销售额同比增长 <span class="hl">96%</span>，2024 上半年同比增长 <span class="hl">202%</span>，费比降 6%</td></tr>
+          <tr><td>社群内容运营</td><td>月均 GMV 超 <span class="hl">40 万</span>，单篇 10w+ 阅读，转化率 4.5%，佣金收益累计 400 万</td></tr>
+          <tr><td>小程序运营</td><td>日销破 <span class="hl">20 万</span>，Q2 环比 +6.42%，Q3 环比 +4.8%</td></tr>
+          <tr><td>福瑞颐养公众号</td><td>2026 年 8 月启动，已建立日更 5 篇的产出机制与完整选题库，处于冷启动阶段</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 工具与技能 -->
+<section id="tools">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="tag">TOOLKIT</div>
+      <h2>工具与技能</h2>
+    </div>
+    <div class="tools-grid">
+      <div class="tool-card reveal reveal-d1"><h3>📝 内容工具</h3><span class="chip">公众号后台排版</span><span class="chip">选题库搭建</span><span class="chip">素材库管理</span></div>
+      <div class="tool-card reveal reveal-d2"><h3>📊 数据工具</h3><span class="chip">Excel · 透视表</span><span class="chip">复盘报告</span><span class="chip">PPT</span></div>
+      <div class="tool-card reveal reveal-d3"><h3>🎨 设计与原型</h3><span class="chip">PS</span><span class="chip">Figma</span><span class="chip">墨刀</span><span class="chip">手绘草图</span></div>
+      <div class="tool-card reveal reveal-d1"><h3>🤖 AIGC 工具</h3><span class="chip">即梦 / 星流 / 可灵 / 堆友</span><span class="chip">Codex / Claude / Pi</span></div>
+      <div class="tool-card reveal reveal-d2"><h3>🤝 协同工具</h3><span class="chip">飞书多维表格</span><span class="chip">流程协同表</span></div>
     </div>
   </div>
 </section>
@@ -327,23 +438,20 @@ footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13
   <div class="container">
     <div class="section-head reveal">
       <div class="tag">EXPERIENCE</div>
-      <h2>工作经历</h2>
+      <h2>工作履历</h2>
     </div>
     <div class="timeline">
 
       <div class="timeline-item reveal">
         <div class="head">
-          <span class="role">商城运营</span>
+          <span class="role">运营</span>
           <span class="org">@ 深圳市福瑞信息技术有限公司</span>
           <span class="date">2024.12 — 至今</span>
         </div>
         <ul>
-          <li><strong>O2O 平台全链路运营：</strong>统筹集团适老化类 O2O 小程序日常运营，负责商品上架、页面体验优化、库存动态监控全环节；优化「线上购买 + 居家上门」服务链路，提升用户体验与转化效率。</li>
-          <li><strong>跨部门协同机制搭建：</strong>拉通采购、财务、技术开发等多部门资源，搭建跨部门业务快速响应机制，支撑线上线下联动营销活动落地。</li>
-          <li><strong>全渠道活动执行运营：</strong>主导线上线下联动营销活动全流程，负责活动规则配置、专题页搭建与上线校验，联动站点、设计团队完成宣发与物料，保障活动零差错高效落地。</li>
-          <li><strong>商品定价与供应链提效：</strong>通过市场调研与竞品分析制定动态定价策略，搭建运营-采购协同标准化流程工具，提升采购协同效率。</li>
-          <li><strong>订单履约与业财闭环：</strong>跟进商城订单全链路，保障订单 100% 履约闭环；月度运营费用报表，跟进供应商发票与付款全流程。</li>
-          <li><span class="hl">业绩成果：</span>深度参与适老化项目从后台开发到商城正式上线全周期，推动项目累计达成 <strong>GMV 1.2 亿元</strong>，支撑集团银发经济赛道业务扩张。</li>
+          <li>独立负责「福瑞颐养」养老科普公众号从 0 到 1 运营，每周 5 篇原创推文，涵盖养老政策、健康科普、适老化产品等内容；每日跟踪行业热点，筛选养老书籍撰写荐书笔记；已建立选题库、排期表及素材库，跑通内容生产全流程。</li>
+          <li>独立完成小程序商城日常商品上架、页面优化及活动配置；梳理订单履约全链路，协调采购补发并安抚用户；每月制作费用报表提交财务对账，跟进供应商发票及付款申请。</li>
+          <li>深度参与适老化项目从后台开发到商城上线全周期，项目累计 <span class="hl">GMV 1.2 亿元</span>。</li>
         </ul>
       </div>
 
@@ -354,10 +462,8 @@ footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13
           <span class="date">2024.06 — 2024.09</span>
         </div>
         <ul>
-          <li><strong>平台运营体系搭建：</strong>独立对接饿了么、美团、京东到家等即时零售平台，搭建活动标准化提报流程与后台运营 SOP 体系，结合区域消费特性制定差异化促销策略。</li>
-          <li><strong>销售全周期数据化运营：</strong>围绕月度销售目标拆解全国区域指标，追踪销售进度，监控活动上线状态、销售数据及优惠券核销率等核心指标，输出销售分析报告支撑决策。</li>
-          <li><strong>跨部门协同机制打通：</strong>联动线下门店、商品、公关、客服等部门，建立活动前需求同步、活动中问题快速响应机制，保障物料铺设与费用核销。</li>
-          <li><span class="hl">业绩成果：</span>任职期间负责的平台大盘份额占比达 <strong>6%</strong>，大盘整体增速 <strong>27%</strong>，美团渠道乳品类目市占排名跻身 <strong>全国第 8 位</strong>。</li>
+          <li>独立对接饿了么、美团、京东到家三大平台，搭建活动提报 SOP；拆解全国各区域销售指标，定期输出销售分析报告。</li>
+          <li>任职期间平台大盘份额占 <span class="hl">6%</span>，大盘增速 <span class="hl">27%</span>，美团乳品类目市占全国第 <span class="hl">8</span>。</li>
         </ul>
       </div>
 
@@ -368,10 +474,8 @@ footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13
           <span class="date">2023.05 — 2024.06</span>
         </div>
         <ul>
-          <li><strong>O2O 平台运营协同：</strong>对接饿了么、淘鲜达等本地生活平台，协同 BD 团队制定促销方案；参与资源谈判，获取开机屏、首页 Banner、推送短信等核心广告位，最大化品牌曝光。</li>
-          <li><strong>营销费用管控优化：</strong>承担平台/KA 渠道销售费用统计、分析与管控，结合费比要求调整投放策略，推动营销费比同比下降 <strong>6%</strong>，精准核算单产品利润。</li>
-          <li><strong>活动落地执行保障：</strong>统筹线上线下活动物料设计，跟进优惠券配置上线、核销率等过程指标，保障活动高效推进。</li>
-          <li><span class="hl">业绩成果：</span>所负责的饿了么渠道，2023 年销售额同比增长 <strong>96%</strong>，2024 年 1-6 月同比增长 <strong>202%</strong>。</li>
+          <li>对接饿了么、淘鲜达等平台，协同 BD 制定促销方案，参与平台资源谈判获取核心广告位；管控营销费用，费比同比下降 6%。</li>
+          <li>所负责的饿了么渠道 2023 年销售额同比增长 <span class="hl">96%</span>，2024 上半年同比增长 <span class="hl">202%</span>。</li>
         </ul>
       </div>
 
@@ -382,9 +486,8 @@ footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13
           <span class="date">2022.04 — 2023.05</span>
         </div>
         <ul>
-          <li><strong>社群分销运营执行：</strong>协助开展快团团、有赞小程序日常运维，执行商品上下架、标题关键词优化、库存动态核对，配合团长、分销商资源拓展。</li>
-          <li><strong>选品与内容落地支持：</strong>基于历史销售数据筛选匹配用户调性的商品，协助供应商谈判议价，核对价格、资质、授权链路，为 20 个矩阵账号输出卖点文案与详情页内容。</li>
-          <li><span class="hl">业绩成果：</span>2023 年 3-6 月发布内容 76 篇，带动月均 GMV 超 <strong>40 万</strong>，单篇最高阅读量 <strong>10w+</strong>，团文转化率 <strong>4.5%</strong>；2022 年输出有赞推文 747 篇，助力矩阵佣金收益突破 <strong>400 万</strong>。</li>
+          <li>协助快团团、有赞小程序日常运维，协助拓展团长及分销商资源；基于历史销售数据筛选商品，输出卖点文案及商品详情页内容。</li>
+          <li>矩阵团文月均 GMV 超 <span class="hl">40 万</span>，单篇 10w+ 阅读，转化率 <span class="hl">4.5%</span>，佣金收益累计 <span class="hl">400 万</span>。</li>
         </ul>
       </div>
 
@@ -395,39 +498,11 @@ footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13
           <span class="date">2020.03 — 2022.04</span>
         </div>
         <ul>
-          <li><strong>小程序及平台运营执行：</strong>协同开展茂乐惠小程序、抖音账号全链路运营，执行产品上架规划、页面动线优化、库存盘点、促销规则配置，配合活动海报与 H5 落地页策划。</li>
-          <li><strong>售后与数据运营支持：</strong>承接小程序端售后对接与客诉处理，定期完成平台流量、销售、用户行为等多维度数据采集。</li>
-          <li><span class="hl">业绩成果：</span>所支持的茂乐惠小程序日均销售额突破 <strong>20 万元</strong>；2021 年 Q2 小程序 GMV 占比环比 Q1 提升 <strong>6.42%</strong>，Q3 再提升 <strong>4.8%</strong>，助力业务稳定增长。</li>
+          <li>协同茂乐惠小程序及抖音账号运营，配合完成活动海报、H5 落地页的内容策划与宣传脚本撰写；承接售后客诉处理，定期采集流量及销售数据。</li>
+          <li>小程序日销破 <span class="hl">20 万</span>，Q2 环比 +6.42%，Q3 环比 +4.8%。</li>
         </ul>
       </div>
 
-    </div>
-  </div>
-</section>
-
-<!-- 成果 -->
-<section id="achievements">
-  <div class="container">
-    <div class="section-head reveal">
-      <div class="tag">ACHIEVEMENTS</div>
-      <h2>核心成果</h2>
-    </div>
-    <div class="projects-grid">
-      <div class="project-card reveal reveal-d1"><div class="spotlight"></div>
-        <div class="name">银发经济适老化商城</div>
-        <div class="stack"><span class="chip">小程序运营</span><span class="chip">居家上门</span><span class="chip">全链路</span></div>
-        <p class="desc">从后台开发到商城上线全周期，精准选品与定制化营销，累计达成 GMV 1.2 亿元，支撑集团银发经济赛道扩张。</p>
-      </div>
-      <div class="project-card reveal reveal-d2"><div class="spotlight"></div>
-        <div class="name">即时零售渠道增长</div>
-        <div class="stack"><span class="chip">饿了么</span><span class="chip">美团</span><span class="chip">京东到家</span></div>
-        <p class="desc">平台大盘份额 6%、整体增速 27%，美团渠道乳品类目市占排名跻身全国第 8 位。</p>
-      </div>
-      <div class="project-card reveal reveal-d3"><div class="spotlight"></div>
-        <div class="name">渠道销售倍增</div>
-        <div class="stack"><span class="chip">营销费比管控</span><span class="chip">内容矩阵</span><span class="chip">分销运营</span></div>
-        <p class="desc">饿了么渠道销售额同比增长 96%→202%，营销费比下降 6%，内容矩阵月均 GMV 超 40 万。</p>
-      </div>
     </div>
   </div>
 </section>
@@ -545,7 +620,7 @@ footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13
   document.querySelectorAll(".reveal").forEach(function (el) { io.observe(el); });
 
   // ===== 卡片鼠标聚光灯效果 =====
-  document.querySelectorAll(".skill-card, .project-card").forEach(function (card) {
+  document.querySelectorAll(".cap-card").forEach(function (card) {
     card.addEventListener("mousemove", function (e) {
       var r = card.getBoundingClientRect();
       card.style.setProperty("--mx", ((e.clientX - r.left) / r.width * 100) + "%");
