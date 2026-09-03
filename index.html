@@ -277,6 +277,13 @@ footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13
   transition: box-shadow .3s var(--ease), transform .3s var(--ease);
 }
 .btn-dl:hover { transform: translateY(-1px); box-shadow: 0 6px 22px var(--brand-glow); }
+.btn-open {
+  display: inline-flex; align-items: center;
+  border: 1px solid rgba(255,255,255,.14); color: var(--ink);
+  font-size: 13px; font-weight: 600; padding: 7px 14px; border-radius: 999px;
+  transition: border-color .25s var(--ease), color .25s var(--ease);
+}
+.btn-open:hover { border-color: var(--brand); color: #fff; }
 .btn-x {
   width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
   border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.05);
@@ -284,6 +291,10 @@ footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13
   transition: all .25s var(--ease);
 }
 .btn-x:hover { color: #fff; border-color: var(--brand); }
+.resume-modal .tip {
+  padding: 8px 18px; font-size: 12px; color: #b9c0ff;
+  background: rgba(94,106,210,.08); border-bottom: 1px solid rgba(255,255,255,.06);
+}
 .resume-modal .view { flex: 1; overflow: auto; -webkit-overflow-scrolling: touch; background: var(--bg-soft); }
 .resume-modal .view img { display: block; width: 100%; height: auto; }
 
@@ -719,10 +730,12 @@ footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13
     <div class="bar">
       <div class="t">简历预览<em>郭悦仪 · 运营 · 6 年</em></div>
       <div class="acts">
-        <a class="btn-dl" href="resume.pdf" download="郭悦仪-运营-6年.pdf"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m6 11 6 6 6-6"/><path d="M5 21h14"/></svg>下载 PDF 简历</a>
+        <a class="btn-open" href="resume.pdf" target="_blank" rel="noopener">打开 PDF</a>
+        <a class="btn-dl" href="resume.pdf" download="郭悦仪-运营-6年.pdf"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m6 11 6 6 6-6"/><path d="M5 21h14"/></svg>下载 PDF</a>
         <button class="btn-x" type="button" data-close-resume aria-label="关闭预览">✕</button>
       </div>
     </div>
+    <div class="tip" id="resumeTip" hidden></div>
     <div class="view">
       <img src="resume-preview.jpg" alt="郭悦仪简历预览：6 年运营经验，适老化小程序累计 GMV 1.2 亿元" loading="lazy">
     </div>
@@ -768,6 +781,17 @@ footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && resumeModal.classList.contains("open")) closeResume();
   });
+
+  // ===== 移动端下载兜底提示 =====
+  var ua = navigator.userAgent;
+  var resumeTip = document.getElementById("resumeTip");
+  if (/MicroMessenger/i.test(ua)) {
+    resumeTip.textContent = "微信内无法直接下载：长按上方图片可保存，或点右上角「···」选「在浏览器打开」后再下载";
+    resumeTip.hidden = false;
+  } else if (/iPhone|iPad|iPod|Android|Mobile/i.test(ua)) {
+    resumeTip.textContent = "手机提示：若点「下载 PDF」无反应，可长按图片保存，或用「打开 PDF」在新页面存储";
+    resumeTip.hidden = false;
+  }
 })();
 </script>
 
