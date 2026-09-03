@@ -85,6 +85,15 @@ section { padding: var(--sp-section-v) 0; position: relative; }
 }
 .nav .links a:hover { color: var(--ink); }
 .nav .links a:hover::after { width: 100%; }
+.nav .links a.nav-dl {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: #fff; font-weight: 600;
+  background: linear-gradient(90deg, var(--brand), var(--brand-2));
+  padding: 7px 16px; border-radius: 999px;
+  transition: box-shadow .3s var(--ease), transform .3s var(--ease);
+}
+.nav .links a.nav-dl::after { display: none; }
+.nav .links a.nav-dl:hover { color: #fff; transform: translateY(-1px); box-shadow: 0 6px 22px var(--brand-glow); }
 
 /* ===== Hero ===== */
 .hero { min-height: calc(100vh - 64px); display: flex; align-items: center; padding-top: 40px; padding-bottom: 60px; }
@@ -237,6 +246,47 @@ section { padding: var(--sp-section-v) 0; position: relative; }
 /* ===== 页脚 ===== */
 footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13px; border-top: 1px solid rgba(255,255,255,.05); }
 
+/* ===== 简历预览弹层 ===== */
+.resume-modal {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center; padding: 24px;
+  visibility: hidden; opacity: 0;
+  transition: opacity .35s var(--ease), visibility 0s linear .35s;
+}
+.resume-modal.open { visibility: visible; opacity: 1; transition: opacity .35s var(--ease); }
+.resume-modal .mask { position: absolute; inset: 0; background: rgba(5,5,6,.82); backdrop-filter: blur(10px); }
+.resume-modal .body {
+  position: relative; display: flex; flex-direction: column;
+  width: min(720px, 100%); height: min(88vh, 1000px);
+  background: var(--card); border: 1px solid rgba(255,255,255,.08);
+  border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
+  transform: translateY(24px) scale(.98); transition: transform .35s var(--ease);
+}
+.resume-modal.open .body { transform: none; }
+.resume-modal .bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  padding: 13px 18px; border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.resume-modal .bar .t { font-size: 14px; font-weight: 700; color: #fff; }
+.resume-modal .bar .t em { font-style: normal; font-weight: 400; font-size: 12px; color: var(--muted); margin-left: 8px; }
+.resume-modal .bar .acts { display: flex; align-items: center; gap: 10px; }
+.btn-dl {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: linear-gradient(90deg, var(--brand), var(--brand-2)); color: #fff;
+  font-size: 13px; font-weight: 600; padding: 8px 16px; border-radius: 999px;
+  transition: box-shadow .3s var(--ease), transform .3s var(--ease);
+}
+.btn-dl:hover { transform: translateY(-1px); box-shadow: 0 6px 22px var(--brand-glow); }
+.btn-x {
+  width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
+  border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.05);
+  color: var(--muted); font-size: 14px; line-height: 1; font-family: inherit;
+  transition: all .25s var(--ease);
+}
+.btn-x:hover { color: #fff; border-color: var(--brand); }
+.resume-modal .view { flex: 1; overflow: auto; -webkit-overflow-scrolling: touch; background: var(--bg-soft); }
+.resume-modal .view img { display: block; width: 100%; height: auto; }
+
 @media (max-width: 640px) {
   .nav .container { flex-wrap: wrap; }
   .nav .links {
@@ -250,6 +300,8 @@ footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13
   .data-table thead { display: none; }
   .data-table tbody td { display: block; padding: 10px 14px; }
   .data-table tbody td:first-child { border-bottom: none; padding-bottom: 2px; }
+  .resume-modal { padding: 10px; }
+  .resume-modal .bar { padding: 11px 14px; }
 }
 </style>
 </head>
@@ -268,6 +320,7 @@ footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13
   <div class="container">
     <div class="logo"><span>✦</span> 郭悦仪</div>
     <nav class="links">
+      <a href="resume.pdf" class="nav-dl" id="navResume" download="郭悦仪-运营-6年.pdf" aria-haspopup="dialog"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m6 11 6 6 6-6"/><path d="M5 21h14"/></svg>下载简历</a>
       <a href="#about">关于</a>
       <a href="#capabilities">能力</a>
       <a href="#achievements">成果</a>
@@ -300,9 +353,7 @@ footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13
       <h2>关于我</h2>
     </div>
     <p class="about-text reveal reveal-d1">
-      你好，我是郭悦仪，一名拥有 6 年经验的运营人。先后服务百货、电商、即时零售与银发经济赛道，
-      现独立运营养老科普公众号「福瑞颐养」，从 0 到 1 跑通选题、撰写、排版、发布全流程。
-      擅长内容策划、平台商务协作、活动全流程执行与数据复盘，相信好的运营既懂内容，也懂数据与用户。这里是我的一些经历与成果，欢迎交流。
+      6 年运营经验，覆盖即时零售、银发经济、百货与电商。现独立运营「福瑞颐养」，擅长活动执行、内容策划、商务协作与数据复盘，能够独立完成从内容到增长的完整运营链路。
     </p>
   </div>
 </section>
@@ -661,6 +712,23 @@ footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13
   <div class="container">© 2026 郭悦仪 · 用心打磨的每一个细节</div>
 </footer>
 
+<!-- 简历预览弹层 -->
+<div class="resume-modal" id="resumeModal" role="dialog" aria-modal="true" aria-label="简历预览与下载">
+  <div class="mask" data-close-resume></div>
+  <div class="body">
+    <div class="bar">
+      <div class="t">简历预览<em>郭悦仪 · 运营 · 6 年</em></div>
+      <div class="acts">
+        <a class="btn-dl" href="resume.pdf" download="郭悦仪-运营-6年.pdf"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m6 11 6 6 6-6"/><path d="M5 21h14"/></svg>下载 PDF 简历</a>
+        <button class="btn-x" type="button" data-close-resume aria-label="关闭预览">✕</button>
+      </div>
+    </div>
+    <div class="view">
+      <img src="resume-preview.jpg" alt="郭悦仪简历预览：6 年运营经验，适老化小程序累计 GMV 1.2 亿元" loading="lazy">
+    </div>
+  </div>
+</div>
+
 <script>
 (function () {
   // ===== 滚动渐现 =====
@@ -676,6 +744,29 @@ footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13
       card.style.setProperty("--mx", ((e.clientX - r.left) / r.width * 100) + "%");
       card.style.setProperty("--my", ((e.clientY - r.top) / r.height * 100) + "%");
     });
+  });
+
+  // ===== 简历预览弹层 =====
+  var resumeModal = document.getElementById("resumeModal");
+  var navResume = document.getElementById("navResume");
+  function openResume() {
+    resumeModal.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+  function closeResume() {
+    resumeModal.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+  navResume.addEventListener("click", function (e) {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return; // 修饰键点击保持原生新开行为
+    e.preventDefault();
+    openResume();
+  });
+  resumeModal.querySelectorAll("[data-close-resume]").forEach(function (el) {
+    el.addEventListener("click", closeResume);
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && resumeModal.classList.contains("open")) closeResume();
   });
 })();
 </script>
