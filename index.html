@@ -786,8 +786,14 @@ footer { text-align: center; padding: 44px 0; color: var(--muted); font-size: 13
   var ua = navigator.userAgent;
   var resumeTip = document.getElementById("resumeTip");
   if (/MicroMessenger/i.test(ua)) {
-    resumeTip.textContent = "微信内无法直接下载：长按上方图片可保存，或点右上角「···」选「在浏览器打开」后再下载";
+    // 微信拦截 H5 直接下载：改为当前页跳转 PDF，触发微信自带文档预览，再经「···」保存
+    resumeTip.textContent = "点「下载 PDF」会打开预览，再点右上角「···」选「用其他应用打开」或「存储到文件」即可保存；也可以直接长按图片保存";
     resumeTip.hidden = false;
+    resumeModal.querySelector(".btn-open").style.display = "none";
+    resumeModal.querySelector(".btn-dl").addEventListener("click", function (e) {
+      e.preventDefault();
+      window.location.href = this.getAttribute("href");
+    });
   } else if (/iPhone|iPad|iPod|Android|Mobile/i.test(ua)) {
     resumeTip.textContent = "手机提示：若点「下载 PDF」无反应，可长按图片保存，或用「打开 PDF」在新页面存储";
     resumeTip.hidden = false;
